@@ -16,7 +16,7 @@
         validate: 'visudo -cf %s'
 
   roles:
-    - role: install-aur-pkg
+    - role: install_aur_pkg
       vars:
         aur_package:
           - paru-bin
