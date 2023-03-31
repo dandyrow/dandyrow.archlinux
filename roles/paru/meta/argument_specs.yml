@@ -20,11 +20,13 @@ argument_specs:
         type: str
 
       paru_conf:
-        description: Path to save Paru configuration file to
+        description:
+          - Path to save Paru configuration file to
         default: /etc/paru.conf
         type: str
 
       use_doas:
-        description: Whether to setup Paru to use doas or not
+        description:
+          - Whether to setup Paru to use doas or not
         default: false
         type: bool

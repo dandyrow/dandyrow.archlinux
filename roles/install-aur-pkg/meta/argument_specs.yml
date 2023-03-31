@@ -2,12 +2,14 @@
 argument_specs:
   main:
     short_description: Install packages from the AUR using makepkg
-    description: Install packages from the Arch User Repository using makepkg
+    description:
+      - Install packages from the Arch User Repository using makepkg
     author:
       - Daniel Lowry (github.com/dandyrow)
     options:
       aur_package:
-        description: List of package names to install from the AUR
+        description:
+          - List of package names to install from the AUR
         type: list
         elements: str
         required: true
