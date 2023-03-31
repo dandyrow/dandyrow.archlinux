@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  role_name: install_aur_pkg
+  role_name: paru
   author: Daniel Lowry
   namespace: dandyrow
   description: >-
@@ -16,6 +16,6 @@ galaxy_info:
     - archuserrepository
 
 dependencies:
-  - role: install-aur-pkg
+  - role: install_aur_pkg
     vars:
       aur_package: paru-bin
