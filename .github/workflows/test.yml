@@ -1,0 +1,207 @@
+# README FIRST
+# 1. If you don't have unit tests, remove that section.
+# 2. If your collection depends on other collections ensure they are installed,
+#    add them to the "test-deps" input.
+# 3. For the comprehensive list of the inputs supported by the
+#    ansible-community/ansible-test-gh-action GitHub Action, see
+#    https://github.com/marketplace/actions/ansible-test.
+# 4. If you want to prevent merging PRs that do not pass all tests,
+#    make sure to add the "check" job to your repository branch
+#    protection once this workflow is added.
+#    It is also possible to tweak which jobs are allowed to fail. See
+#    https://github.com/marketplace/actions/alls-green#gotchas for more detail.
+# 5. If you need help please ask in #ansible-community on the Libera.chat IRC
+#    network.
+# 6. See documentation for ansible-community/ansible-test-gh-action on
+# https://github.com/ansible-community/ansible-test-gh-action/blob/main/README.md
+---
+name: Test Collection
+'on':
+  # Run CI against all pushes (direct commits, also merged PRs), Pull Requests
+  push:
+    branches:
+      - main
+  pull_request:
+  # Run CI once per day (at 06:00 UTC)
+  # This ensures that even if there haven't been commits that we are still
+  # testing against latest version of ansible-test for each ansible-core
+  # version
+  schedule:
+    - cron: '0 6 * * *'
+
+concurrency:
+  group: >-
+    ${{ github.workflow }}-${{
+      github.event.pull_request.number || github.sha
+    }}
+  cancel-in-progress: true
+
+jobs:
+  ###
+  # Sanity tests
+  #
+  # https://docs.ansible.com/ansible/latest/dev_guide/testing_sanity.html
+
+  sanity:
+    name: Sanity (Ⓐ${{ matrix.ansible }})
+    strategy:
+      matrix:
+        ansible:
+          - stable-2.12
+          - stable-2.13
+          - stable-2.14
+          - devel
+          # - milestone
+    runs-on: ubuntu-latest
+    steps:
+      - name: Perform sanity testing
+        uses: ansible-community/ansible-test-gh-action@release/v1
+        with:
+          ansible-core-version: ${{ matrix.ansible }}
+          testing-type: sanity
+          pull-request-change-detection: true
+
+  ###
+  # Unit tests - Disabled right now as no unit tests exist
+  #
+  # https://docs.ansible.com/ansible/latest/dev_guide/testing_units.html
+
+  # units:
+  #   runs-on: ubuntu-latest
+  #   name: Units (Ⓐ${{ matrix.ansible }}+py${{ matrix.python }})
+  #   strategy:
+  #     # As soon as the first unit test fails,
+  #     # cancel the others to free up the CI queue
+  #     fail-fast: true
+  #     matrix:
+  #       ansible:
+  #         - stable-2.12
+  #         - stable-2.13
+  #         - stable-2.14
+  #         - devel
+  #         # - milestone
+  #       python:
+  #         - '2.7'
+  #         - '3.5'
+  #         - '3.6'
+  #         - '3.7'
+  #         - '3.8'
+  #         - '3.9'
+  #         - '3.10'
+
+  #   steps:
+  #     - name: >-
+  #         Perform unit testing against
+  #         Ansible version ${{ matrix.ansible }} &
+  #         Python version ${{ matrix.python }}
+  #       uses: ansible-community/ansible-test-gh-action@release/v1
+  #       with:
+  #         ansible-core-version: ${{ matrix.ansible }}
+  #         target-python-version: ${{ matrix.python }}
+  #         testing-type: units
+  #         pull-request-change-detection: true
+
+  ###
+  # Integration tests - Disabled as no integration tests for python code exist
+  #
+  # https://docs.ansible.com/ansible/latest/dev_guide/testing_integration.html
+
+  # If the application you are testing is available as a docker container
+  # and you want to test multiple versions see the following for an example:
+  # https://github.com/ansible-collections/community.zabbix/tree/master/.github/workflows
+
+  # integration:
+  #   runs-on: ubuntu-latest
+  #   name: Integration (Ⓐ${{ matrix.ansible }}+py${{ matrix.python }})
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       ansible:
+  #         - stable-2.12
+  #         - stable-2.13
+  #         - stable-2.14
+  #         - devel
+  #       # - milestone
+  #       python:
+  #         - '2.6'
+  #         - '2.7'
+  #         - '3.5'
+  #         - '3.6'
+  #         - '3.7'
+  #         - '3.8'
+  #         - '3.9'
+  #         - '3.10'
+  #       exclude:
+  #         # Python 2.6 is not supported with ansible-core >= 2.13
+  #         - ansible: stable-2.13
+  #           python: '2.6'
+  #         - ansible: stable-2.14
+  #           python: '2.6'
+  #         - ansible: devel
+  #           python: '2.6'
+
+  #   steps:
+  #     - name: >-
+  #         Perform integration testing against
+  #         Ansible version ${{ matrix.ansible }}
+  #         under Python ${{ matrix.python }}
+  #       uses: ansible-community/ansible-test-gh-action@release/v1
+  #       with:
+  #         ansible-core-version: ${{ matrix.ansible }}
+  #         target-python-version: ${{ matrix.python }}
+  #         testing-type: integration
+  #         pull-request-change-detection: true
+
+
+  integration-role:
+    runs-on: ubuntu-latest
+    name: Integration - Roles (Distro ${{ matrix.distro }})
+    strategy:
+      fail-fast: false
+      matrix:
+        distro:
+          - ubuntu2204
+          - ubuntu2004
+          - debian11
+          - debian10
+          - archlinux
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+        with:
+          path: ansible_collections/dandyrow/archlinux
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.10'
+
+      - name: Install test dependencies.
+        run: pip3 install ansible yamllint ansible-lint molecule[podman] podman
+
+      - name: Run Molecule tests.
+        working-directory: ansible_collections/dandyrow/archlinux/tests/integration
+        run: molecule test --all
+        env:
+          MOLECULE_DISTRO: ${{ matrix.distro }}
+
+
+  # Job used for branch protection or multi-stage CI jobs to make sure that all
+  # tests pass before allow a pull request merge or running a publishing job.
+  check:
+    if: always()
+
+    needs:
+      - sanity
+      # - units
+      # - integration
+      - integration-role
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}
