@@ -157,15 +157,6 @@ jobs:
   integration-role:
     runs-on: ubuntu-latest
     name: Integration - Roles (Distro ${{ matrix.distro }})
-    strategy:
-      fail-fast: false
-      matrix:
-        distro:
-          - ubuntu2204
-          - ubuntu2004
-          - debian11
-          - debian10
-          - archlinux
 
     steps:
       - name: Checkout source
@@ -182,10 +173,9 @@ jobs:
         run: pip3 install ansible yamllint ansible-lint molecule[podman] podman
 
       - name: Run Molecule tests.
-        working-directory: ansible_collections/dandyrow/archlinux/tests/integration
+        working-directory: >
+          ansible_collections/dandyrow/archlinux/tests/integration
         run: molecule test --all
-        env:
-          MOLECULE_DISTRO: ${{ matrix.distro }}
 
 
   # Job used for branch protection or multi-stage CI jobs to make sure that all

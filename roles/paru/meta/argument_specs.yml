@@ -2,7 +2,7 @@
 argument_specs:
   main:
     short_description: Install and configure the Paru AUR helper
-    description: 
+    description:
       - Install and configure Paru Arch User Repository helper using makepkg
     author:
       - Daniel Lowry (github.com/dandyrow)

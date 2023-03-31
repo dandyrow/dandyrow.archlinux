@@ -31,7 +31,8 @@ jobs:
       - name: Install collection locally
         run: >
           ansible-galaxy collection install
-          dandyrow-archlinux-$(grep version galaxy.yml | awk '{print $2}').tar.gz
+          dandyrow-archlinux-$(grep version galaxy.yml
+          | awk '{print $2}').tar.gz
 
       - name: Install sphinx dependencies
         run: pip3 install -r docs/requirements.txt

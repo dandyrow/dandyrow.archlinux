@@ -4,7 +4,7 @@ name: archlinux
 version: 1.0.0
 readme: README.md
 authors:
-- Daniel Lowry (github.com/dandyrow)
+  - Daniel Lowry (github.com/dandyrow)
 description: Collection of tools for defining Archlinux setups with code
 license_file: LICENSE
 tags:
