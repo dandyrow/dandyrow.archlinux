@@ -1,0 +1,24 @@
+---
+- name: Ensure PKKGBUILD is cloned from AUR
+  ansible.builtin.git:
+    repo: https://aur.archlinux.org/{{ item }}.git
+    dest: /tmp/{{ item }}
+    version: master
+  become: true
+  become_user: "{{ non_root_aur_user }}"
+
+- name: Build AUR package
+  ansible.builtin.shell: |
+    cd /tmp/{{ item }}
+    makepkg -s --noconfirm
+    makepkg --packagelist
+  become: true
+  become_user: "{{ non_root_aur_user }}"
+  register: makepkg_out
+  changed_when: "'A package has already been built.' not in makepkg_out.stderr"
+  failed_when: "makepkg_out.rc != 0 and makepkg_out.rc != 13"
+
+- name: Ensure AUR package is installed
+  community.general.pacman:
+    name: "{{ makepkg_out.stdout_lines[-1] }}"
+    state: present

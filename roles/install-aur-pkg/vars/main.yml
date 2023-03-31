@@ -1,0 +1,6 @@
+---
+makepkg_build_dependencies:
+  - git
+  - make
+  - binutils
+  - fakeroot

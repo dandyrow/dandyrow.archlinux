@@ -1,0 +1,19 @@
+---
+- name: Ensure non root AUR user exists
+  ansible.builtin.user:
+    name: "{{ non_root_aur_user }}"
+    state: present
+
+- name: Ensure system is up to date
+  community.general.pacman:
+    update_cache: true
+    upgrade: true
+
+- name: Ensure build dependencies are installed
+  community.general.pacman:
+    name: "{{ makepkg_build_dependencies }}"
+    state: present
+
+- name: Build & install each AUR package
+  ansible.builtin.include_tasks: "{{ role_path }}/tasks/build-install-loop.yml"
+  with_items: "{{ aur_package }}"
