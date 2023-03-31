@@ -1,0 +1,19 @@
+---
+- name: Converge
+  hosts: all
+  pre_tasks:
+    - name: Ensure sudo is installed
+      community.general.pacman:
+        name: sudo
+        state: present
+
+    - name: Ensure aur_builder no password config is present in sudoers file
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers.d/11-install-aur_builder
+        line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
+        create: true
+        mode: '0700'
+        validate: 'visudo -cf %s'
+
+  roles:
+    - role: paru

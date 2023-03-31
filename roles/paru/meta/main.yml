@@ -1,0 +1,21 @@
+---
+galaxy_info:
+  role_name: install_aur_pkg
+  author: Daniel Lowry
+  namespace: dandyrow
+  description: >-
+    Ansible role to install the Paru AUR helper with makepkg
+  license: GPL-3.0-only
+  min_ansible_version: "2.12"
+
+  platforms:
+    - name: ArchLinux
+
+  galaxy_tags:
+    - archlinux
+    - archuserrepository
+
+dependencies:
+  - role: install-aur-pkg
+    vars:
+      aur_package: paru-bin

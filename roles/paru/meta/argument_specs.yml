@@ -1,0 +1,30 @@
+---
+argument_specs:
+  main:
+    short_description: Install and configure the Paru AUR helper
+    description: 
+      - Install and configure Paru Arch User Repository helper using makepkg
+    author:
+      - Daniel Lowry (github.com/dandyrow)
+    options:
+      non_root_aur_user:
+        description:
+          - Non-root user which is used to run makepkg.
+          - >-
+            Makepkg can't be run as root see
+            https://wiki.archlinux.org/title/Makepkg for information why.
+          - >-
+            This user must be able to run pacman as root without a password
+            for this role to work.
+        default: aur_builder
+        type: str
+
+      paru_conf:
+        description: Path to save Paru configuration file to
+        default: /etc/paru.conf
+        type: str
+
+      use_doas:
+        description: Whether to setup Paru to use doas or not
+        default: false
+        type: bool

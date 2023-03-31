@@ -1,0 +1,4 @@
+---
+non_root_aur_user: aur_builder
+paru_conf: /etc/paru.conf
+use_doas: false

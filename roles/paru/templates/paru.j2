@@ -1,0 +1,26 @@
+# {{ ansible_managed }}
+#
+# {{ paru_conf }}
+#
+# See the paru.conf(5) manpage for options
+
+#
+# GENERAL OPTIONS
+#
+[options]
+PgpFetch
+Devel
+Provides
+DevelSuffixes = -git -cvs -svn -bzr -darcs -always -hg -fossil
+RemoveMake
+CleanAfter
+UpgradeMenu
+NewsOnUpgrade
+{% if use_doas %}
+
+#
+# Binary OPTIONS
+#
+[bin]
+Sudo = doas
+{% endif %}
