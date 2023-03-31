@@ -156,7 +156,7 @@ jobs:
 
   integration-role:
     runs-on: ubuntu-latest
-    name: Integration - Roles (Distro ${{ matrix.distro }})
+    name: Integration - Roles
 
     steps:
       - name: Checkout source
@@ -173,7 +173,7 @@ jobs:
         run: pip3 install ansible yamllint ansible-lint molecule[podman] podman
 
       - name: Run Molecule tests.
-        working-directory: >
+        working-directory: >-
           ansible_collections/dandyrow/archlinux/tests/integration
         run: molecule test --all
 
