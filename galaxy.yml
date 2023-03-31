@@ -1,0 +1,23 @@
+---
+namespace: dandyrow
+name: archlinux
+version: 1.0.0
+readme: README.md
+authors:
+- Daniel Lowry (github.com/dandyrow)
+description: Collection of tools for defining Archlinux setups with code
+license_file: LICENSE
+tags:
+  - archlinux
+  - linux
+  - aur
+  - archuserrepository
+dependencies: {
+  community.general: ">=6.5.0"
+}
+repository: https://github.com/dandyrow/dandyrow.archlinux
+documentation: https://dandyrow.github.io/dandyrow.archlinux
+homepage: https://dandyrow.github.io/dandyrow.archlinux
+issues: https://github.com/dandyrow/dandyrow.archlinux/issues
+build_ignore:
+  - .gitignore
