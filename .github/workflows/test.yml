@@ -175,7 +175,7 @@ jobs:
       - name: Run Molecule tests.
         working-directory: >-
           ansible_collections/dandyrow/archlinux/tests/integration
-        run: molecule test --all
+        run: molecule reset && molecule test --all
 
 
   # Job used for branch protection or multi-stage CI jobs to make sure that all
