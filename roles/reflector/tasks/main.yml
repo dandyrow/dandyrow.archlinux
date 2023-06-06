@@ -1,0 +1,19 @@
+---
+- name: Install reflector
+  ansible.builtin.package:
+    name: reflector
+    state: present
+
+- name: Configure reflector
+  ansible.builtin.template:
+    src: "{{ role_path }}/templates/reflector.j2"
+    dest: /etc/xdg/reflector/reflector.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Enable weekly reflector running
+  ansible.builtin.service:
+    name: reflector.timer
+    enabled: true
+  when: run_weekly

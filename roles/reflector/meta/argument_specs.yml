@@ -1,0 +1,96 @@
+---
+argument_specs:
+  main:
+    short_description: Install and configure reflector.
+    description:
+      - Install and configure reflector.
+    author:
+      - Daniel Lowry (github.com/dandyrow)
+    options:
+      save_path:
+        description:
+          - Filepath to save mirrorlist to.
+        type: path
+
+      sort:
+        description:
+          - What value to sort the reflector mirrorlist by.
+        type: str
+        choices:
+          - age
+          - rate
+          - country
+          - score
+          - delay
+
+      age:
+        description:
+          - Only return mirrors synced in the last n hours.
+        type: float
+
+      delay:
+        description:
+          - Only return mirrors with a reported sync delay of n hours or less.
+        type: float
+
+      countries:
+        description:
+          - Restrict mirrors to selected countries.
+          - Countries may be given by name or country code, or both.
+        type: str
+
+      fastest:
+        description:
+          - Return the n fastest mirrors that meet the other criteria.
+          - Do not use this without other filtering options.
+        type: int
+
+      include:
+        description:
+          - Include servers taht match specified regex.
+          - Regex is python regular expression.
+        type: str
+
+      exclude:
+        description:
+          - Exclude servers taht match specified regex.
+          - Regex is python regular expression.
+        type: str
+
+      latest:
+        description:
+          - Limit the list to the n most recently synced servers.
+        type: int
+
+      score:
+        description:
+          - Limit the list to the n servers with the highest score.
+        type: int
+
+      number:
+        description:
+          - Return at most this amount of mirrors.
+        type: int
+
+      protocols:
+        description:
+          - Match one of the given protocols.
+        type: list
+        elements: str
+
+      only_ipv4:
+        description:
+          - Only return mirrors that support IPv4.
+        type: bool
+        default: false
+
+      only_ipv6:
+        description:
+          - Only return mirrors that support IPv6.
+
+      run_weekly:
+        description:
+          - Whether to enable the reflector timer to run reflector weekly.
+          - This will keep mirrorlists up to date.
+        type: bool
+        default: true

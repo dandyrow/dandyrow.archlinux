@@ -1,0 +1,11 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+    - role: dandyrow.archlinux.reflector
+      vars:
+        save: /etc/pacman.d/mirrorlist
+        countries: [ United Kingdom ]
+        protocols: [ https ]
+        latest: 5
+        sort: age

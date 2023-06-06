@@ -1,0 +1,43 @@
+# {{ ansible_managed }}
+{% if save_path is defined %}
+--save {{ save_path }}
+{% endif %}
+{% if sort is defined %}
+--sort {{ sort }}
+{% endif %}
+{% if age is defined %}
+--age {{ age }}
+{% endif %}
+{% if delay is defined %}
+--delay {{ delay }}
+{% endif %}
+{% if countries is defined %}
+--country '{% for country in countries %}{{ country }}{% if not loop.last %}, {% endif %}{% endfor %}'
+{% endif %}
+{% if fastest is defined %}
+--fastest {{ fastest }}
+{% endif %}
+{% if include is defined %}
+--include {{ include }}
+{% endif %}
+{% if exclude is defined %}
+--exclude {{ exclude }}
+{% endif %}
+{% if latest is defined %}
+--latest {{ latest }}
+{% endif %}
+{% if score is defined %}
+--score {{ score }}
+{% endif %}
+{% if number is defined %}
+--number {{ number }}
+{% endif %}
+{% if protocols is defined %}
+--protocol '{% for protocol in protocols %}{{ protocol }}{% if not loop.last %}, {% endif %}{% endfor %}'
+{% endif %}
+{% if only_ipv4 %}
+--only_ipv4
+{% endif %}
+{% if only_ipv6 %}
+--only_ipv6
+{% endif %}

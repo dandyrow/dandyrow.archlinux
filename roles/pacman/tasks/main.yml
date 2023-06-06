@@ -1,0 +1,17 @@
+---
+- name: Configure pacman
+  ansible.builtin.lineinfile:
+    path: /etc/pacman.conf
+    regexp: "#{{ item }}"
+    insertafter: ^\[options\]
+    line: "{{ item }}"
+    owner: root
+    group: root
+    mode: '0644'
+    state: present
+  with_items:
+    - Color
+    - CheckSpace
+    - VerbosePkgLists
+    - ILoveCandy
+    - ParallelDownloads = {{ parallel_downloads }}
