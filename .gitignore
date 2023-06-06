@@ -137,3 +137,5 @@ docs/build
 
 # Local collection builds
 *.tar.gz
+
+.vscode/settings.json
