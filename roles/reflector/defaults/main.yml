@@ -1,0 +1,4 @@
+---
+only_ipv4: false
+only_ipv6: false
+run_weekly: true

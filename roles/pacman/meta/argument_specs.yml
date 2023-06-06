@@ -1,0 +1,14 @@
+---
+argument_specs:
+  main:
+    short_description: Configure pacman.
+    description:
+      - Configure pacman package manager.
+    author:
+      - Daniel Lowry (github.com/dandyrow)
+    options:
+      parallel_downloads:
+        description:
+          - Number of parallel downloads which pacman is allowed to do.
+        type: int
+        default: 5
