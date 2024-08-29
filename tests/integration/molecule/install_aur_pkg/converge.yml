@@ -19,5 +19,5 @@
     - role: install_aur_pkg
       vars:
         aur_package:
-          - paru-bin
+          - brave-bin
           - zsh-you-should-use
