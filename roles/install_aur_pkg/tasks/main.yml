@@ -3,17 +3,21 @@
   ansible.builtin.user:
     name: "{{ non_root_aur_user }}"
     state: present
+  become: true
 
 - name: Ensure system is up to date
   community.general.pacman:
     update_cache: true
     upgrade: true
+  become: true
 
 - name: Ensure build dependencies are installed
   community.general.pacman:
     name: "{{ makepkg_build_dependencies }}"
     state: present
+  become: true
 
 - name: Build & install each AUR package
   ansible.builtin.include_tasks: "{{ role_path }}/tasks/build-install-loop.yml"
   with_items: "{{ aur_package }}"
+  become: true

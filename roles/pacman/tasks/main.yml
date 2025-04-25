@@ -1,5 +1,6 @@
 ---
 - name: Configure pacman
+  become: true
   ansible.builtin.lineinfile:
     path: /etc/pacman.conf
     regexp: "#{{ item }}"
