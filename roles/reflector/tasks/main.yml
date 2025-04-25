@@ -3,6 +3,7 @@
   ansible.builtin.package:
     name: reflector
     state: present
+  become: true
 
 - name: Configure reflector
   ansible.builtin.template:
@@ -11,9 +12,11 @@
     owner: root
     group: root
     mode: '0644'
+  become: true
 
 - name: Enable weekly reflector running
   ansible.builtin.service:
     name: reflector.timer
     enabled: true
   when: run_weekly
+  become: true

@@ -4,3 +4,4 @@
     src: "{{ role_path }}/templates/paru.j2"
     dest: "{{ paru_conf }}"
     mode: "0644"
+  become: true
